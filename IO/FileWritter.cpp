@@ -4,14 +4,15 @@
 #include <cstdint>
 #include <vector>
 #include <iostream>
+#include <fstream>
 
-std::string BitLining(std::map<uint8_t , std::string> tableHuffman)
+std::string BitLining(std::vector<uint8_t> data , std::map<uint8_t , std::string> tableHuffman)
 {
     std::string bitline = "";
 
-    for (auto pair : tableHuffman) 
+    for (size_t i = 0; i < data.size(); i ++)
     {
-        bitline += pair.second;
+        bitline += tableHuffman[data[i]];
     }
 
     return bitline;
@@ -48,4 +49,17 @@ std::vector<std::string> BitSplitting(std::string bitline)
     }
 
     return tableBit;
+}
+
+void WriteBitFile(const std::string& path , std::vector<uint8_t> tableUint8_t)
+{
+    std::ofstream file(path , std::ios::binary);
+
+    file.write(reinterpret_cast<char*>(tableUint8_t.data()) , tableUint8_t.size());
+
+    std::cout << "\n" <<
+                "Writting Successfully" <<
+                "\n"; 
+
+    file.close();
 }
