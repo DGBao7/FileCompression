@@ -1,0 +1,1 @@
+g++ main.cpp IO/FileWritter.cpp IO/FileReader.cpp Huffman/Huffman.cpp Data/FrequencyTable.cpp Utils/BinaryToDecimal.cpp -o app

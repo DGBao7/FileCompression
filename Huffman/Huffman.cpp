@@ -2,6 +2,9 @@
 #include "Node.h"
 #include <vector>
 #include <cstdint>
+#include <string>
+#include <map>
+#include <iostream>
 
 std::vector<Node*> CreateNode(std::vector<int> table) 
 {
@@ -56,4 +59,20 @@ Node* CreateTree(std::vector<int> table)
     }
 
     return pq.top();
+}
+
+void GenerateCode(Node* tree , std::string code , std::map<uint8_t , std::string>& tableHuffman) 
+{
+    if (tree == nullptr)
+    {
+        return;
+    }
+
+    if (tree -> left == nullptr && tree -> right == nullptr) 
+    {
+        tableHuffman[tree -> byte] = code;
+    }
+
+    GenerateCode(tree -> left , code + "0" , tableHuffman);
+    GenerateCode(tree -> right , code + "1" , tableHuffman);
 }
