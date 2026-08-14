@@ -2,9 +2,23 @@
 #include <thread>
 #include <chrono>
 #include <atomic>
-#include "Waiting.h"
+#include "UI.h"
 
-void Loading(std::atomic<bool>& writing)
+int OptionSelect()
+{
+    std::cout << "Slect your option: \n" <<
+                "1. Compression\n" <<
+                "2. Expression\n" << 
+                "User: ";
+
+    int select;
+
+    std:: cin >> select;
+
+    return select;
+}
+
+void Writting(std::atomic<bool>& writing)
 {
     int counter = 0;
 

@@ -1,1 +1,2 @@
-g++ main.cpp IO/FileWritter.cpp IO/FileReader.cpp Huffman/Huffman.cpp Data/FrequencyTable.cpp Utils/BinaryToDecimal.cpp -o app
+g++ main.cpp IO/FileWritter.cpp IO/FileReader.cpp Huffman/Huffman.cpp Data/FrequencyTable.cpp Utils/BinaryToDecimal.cpp UI/UI.cpp IO/ReadEncodeFile.cpp -o app
+g++ main.cpp Huffman/*.cpp Data/*.cpp IO/*.cpp UI/*.cpp Utils/*.cpp -o app.exe; if ($?) { .\app.exe }

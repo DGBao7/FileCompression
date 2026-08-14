@@ -22,7 +22,7 @@ std::vector<Node*> CreateNode(std::vector<int> table)
 
 std::priority_queue<Node*, std::vector<Node*>, Compare> pq;
 
-Node* CreateTree(std::vector<int> table) 
+Node* CreateNodeTree(std::vector<int> table) 
 {
     std::vector<Node*> node = CreateNode(table);
 

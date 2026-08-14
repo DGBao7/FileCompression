@@ -1,10 +1,11 @@
-#include "BinaryToDecimal.h"
+#include "BitCalculating.h"
 #include <vector>
 #include <string>
 #include <iostream>
 #include <cstdint>
+#include <bitset>
 
-std::vector<int> BitToDec(std::vector<std::string> tableBit)
+std::vector<int> BitToDecimal(std::vector<std::string> tableBit)
 {
     std::vector<int> tableDec;
 
@@ -17,7 +18,7 @@ std::vector<int> BitToDec(std::vector<std::string> tableBit)
     return tableDec;
 }
 
-std::vector<uint8_t> DecToBit(std::vector<int> tableDec) 
+std::vector<uint8_t> DecimalToBinary(std::vector<int> tableDec) 
 {
     std::vector<uint8_t> tableUint8_t;
 
@@ -27,4 +28,17 @@ std::vector<uint8_t> DecToBit(std::vector<int> tableDec)
     }
     
     return tableUint8_t;
+}
+
+std::string DecimalToBit(std::vector<uint8_t> tableUint8_t)
+{
+    std::string bitline = "";
+
+    for (size_t i = 0; i < tableUint8_t.size(); i ++)
+    {
+        std::bitset<8> bits(static_cast<int>(tableUint8_t[i]));
+        bitline += bits.to_string();
+    }
+
+    return bitline;
 }

@@ -6,53 +6,10 @@
 #include <iostream>
 #include <fstream>
 
-std::string BitLining(std::vector<uint8_t> data , std::map<uint8_t , std::string> tableHuffman)
+void WriteCompressFile(const std::string& path , std::vector<uint8_t> tableUint8_t , std::string pad)
 {
-    std::string bitline = "";
+    tableUint8_t.push_back(static_cast<uint8_t>(std::stoi(pad)));
 
-    for (size_t i = 0; i < data.size(); i ++)
-    {
-        bitline += tableHuffman[data[i]];
-    }
-
-    return bitline;
-};
-
-std::vector<std::string> BitSplitting(std::string bitline) 
-{
-    int counter = 0;
-    std::string line = "";
-    std::vector<std::string> tableBit;
-
-    for (size_t i = 0; i < bitline.size(); i ++) 
-    {
-        if (counter < 8) 
-        {
-            counter ++;
-            line += bitline[i];
-            continue;
-        }
-
-        tableBit.push_back(line);
-        line = bitline[i];
-        counter = 1;
-    }
-
-    if (line.size() > 0) 
-    {
-        while (line.size() < 8)
-        {
-            line += "0";
-        }
-        
-        tableBit.push_back(line);
-    }
-
-    return tableBit;
-}
-
-void WriteBitFile(const std::string& path , std::vector<uint8_t> tableUint8_t)
-{
     std::ofstream file(path , std::ios::binary);
 
     file.write(reinterpret_cast<char*>(tableUint8_t.data()) , tableUint8_t.size());

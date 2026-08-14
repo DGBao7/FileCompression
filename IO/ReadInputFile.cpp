@@ -1,4 +1,4 @@
-#include "FileReader.h"
+#include "ReadInputFile.h"
 #include <vector>
 #include <string>
 #include <fstream>

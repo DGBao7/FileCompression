@@ -1,0 +1,9 @@
+Read Binary File -> data
+Build table -> table
+CreateTree -> tree
+GenerateCode -> table Huffman
+BitLining -> bitline
+BitSplitting -> tableBit
+pad
+BitToDec -> tableDec
+DecToBi -> tableUint8_t

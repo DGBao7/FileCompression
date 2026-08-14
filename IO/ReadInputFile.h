@@ -1,5 +1,5 @@
-#ifndef FILEREADER_H
-#define FILEREADER_H
+#ifndef READINPUTFILE_H
+#define READINPUTFILE_H
 #include <vector>
 #include <string>
 #include <cstdint>
