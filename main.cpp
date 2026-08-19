@@ -10,13 +10,15 @@
 
 #include "IO/ReadInputFile.h"
 #include "Data/FrequencyTable.h"
-#include "Huffman/Node.h"
+#include "Node.h"
 #include "Huffman/Huffman.h"
 #include "IO/FileWritter.h"
 #include "Utils/BitCalculating.h"
 #include "UI/UI.h"
 #include "IO/ReadEncodeFile.h"
 #include "Utils/BitModify.h"
+#include "Utils/AnalyzeData.h"
+#include "AnalyzeResult.h"
 
 void Confirm() 
 {
@@ -57,13 +59,13 @@ void Compression()
     // std::cout << tree -> frequency;
 
     std::string code = "";
-    std::map<uint8_t , std::string> tableHuffman;
+    std::map<uint8_t , std::string> table_huffman;
 
-    GenerateCode(tree , code , tableHuffman);
+    GenerateCode(tree , code , table_huffman);
 
     // std::cout << "\n";
 
-    // for (auto pair : tableHuffman)
+    // for (auto pair : table_huffman)
     // {
     //     std::cout
     //         << static_cast<int>(pair.first)
@@ -72,72 +74,96 @@ void Compression()
     //         << std::endl;
     // }
 
-    std::string bitline = BitLining(data , tableHuffman);
+    std::string bitline = BitLining(data , table_huffman);
 
     // std::cout << "\n" << bitline;
 
-    std::vector<std::string> tableBit = BitSplitting(bitline , condition);
-    std::string pad = tableBit[tableBit.size() - 1];
-    tableBit.pop_back();
+    std::vector<std::string> table_bit = BitSplitting(bitline , condition);
+    std::string pad = table_bit[table_bit.size() - 1];
+    table_bit.pop_back();
 
     std::cout << "\n";
 
-    for (size_t i = 0; i < tableBit.size(); i ++)
-    {
-        std::cout << tableBit[i] << "\n";
-    }
+    // for (size_t i = 0; i < table_bit.size(); i ++)
+    // {
+    //     std::cout << table_bit[i] << "\n";
+    // }
 
-    std::vector<int> tableDec = BitToDecimal(tableBit);
+    std::vector<int> table_dec = BitToDecimal(table_bit);
 
     // std::cout << "\n";
 
-    // for (size_t i = 0; i < tableDec.size(); i ++) 
+    // for (size_t i = 0; i < table_dec.size(); i ++) 
     // {
-    //     std::cout << tableDec[i] << "\n";
+    //     std::cout << table_dec[i] << "\n";
     // }
 
-    std::vector<uint8_t> tableUint8_t = DecimalToBinary(tableDec);
+    std::vector<uint8_t> table_uint8t = DecimalToBinary(table_dec);
 
     writing = false;
     std::cout << "\n";
     std::cout << "Input size = " << data.size() << " bytes\n";
-    std::cout << "Output size = " << tableUint8_t.size() << " bytes\n";
+    std::cout << "Output size = " << table_uint8t.size() << " bytes\n";
 
-    WriteCompressFile("Data/output.bin" , tableUint8_t , pad);
+    WriteCompressFile("Data/output.bin" , table_uint8t , pad , table_huffman);
 }
 
 void Expression()
 {
     bool condition = false;
 
-    std::vector<uint8_t> tableUint8_t = ReadEncodeFile("Data/output.bin");
+    std::vector<uint8_t> data = ReadEncodeFile("Data/output.bin");
 
     // Remove pad number
-    int pad = tableUint8_t[tableUint8_t.size() - 1];
-    tableUint8_t.pop_back();
+    // int pad = table_uint8t[table_uint8t.size() - 1];
+    // table_uint8t.pop_back();
 
-    std::cout << "\n";
-    for (size_t i = 0; i < tableUint8_t.size(); i ++)
+    // std::cout << "\n";
+    // for (size_t i = 0; i < table_uint8t.size(); i ++)
+    // {
+    //     std::cout << static_cast<int>(table_uint8t[i]) << " ";
+    // }
+
+    // std::cout << "\n";
+    // std::string bitline = DecimalToBit(table_uint8t);
+    // std::cout << bitline;
+
+    // std::cout << "\n";
+    // std::vector<std::string> table_bit = BitSplitting(bitline , condition);
+    // for (size_t i = 0; i < table_bit.size(); i ++)
+    // {
+    //     std::cout << tableBit[i] << "\n";
+    // }
+
+    // std::cout << "\n";
+    // tableBit[tableBit.size() - 1] = RemovePad(tableBit[tableBit.size() - 1] , pad);
+    // for (size_t i = 0; i < tableBit.size(); i ++)
+    // {
+    //     std::cout << tableBit[i] << "\n";
+    // }
+
+    for (size_t i = 0; i < data.size(); i ++)
     {
-        std::cout << static_cast<int>(tableUint8_t[i]) << " ";
+        std::cout << static_cast<int>(data[i]) << " ";
     }
 
-    std::cout << "\n";
-    std::string bitline = DecimalToBit(tableUint8_t);
-    std::cout << bitline;
-
-    std::cout << "\n";
-    std::vector<std::string> tableBit = BitSplitting(bitline , condition);
-    for (size_t i = 0; i < tableBit.size(); i ++)
+    Ar res = AnalyzeData(data);
+    std::cout <<  "\n";
+    for (size_t i = 0; i < res.data_table.size(); i ++)
     {
-        std::cout << tableBit[i] << "\n";
+        std::cout << "\n";
+        for (size_t j = 0; j < res.data_table[i].size(); j ++)
+        {
+            std::cout << static_cast<int>(res.data_table[i][j]) << " ";
+        }
     }
 
+    std::cout << "\n" << res.table_size;
+    
     std::cout << "\n";
-    tableBit[tableBit.size() - 1] = RemovePad(tableBit[tableBit.size() - 1] , pad);
-    for (size_t i = 0; i < tableBit.size(); i ++)
+    for (size_t i = 0; i < res.table_char.size(); i ++)
     {
-        std::cout << tableBit[i] << "\n";
+        std::cout << res.table_char[i] << " ";
     }
 
     Confirm();
@@ -154,8 +180,8 @@ int main()
     // //     Expression();
     // // }
 
-    int mh;
-    std::cin >> mh;
+    int mh = 2;
+    // std::cin >> mh;
 
     if (mh == 1)
     {
