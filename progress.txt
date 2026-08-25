@@ -1,9 +1,48 @@
-Read Binary File -> data
-Build table -> table
-CreateTree -> tree
-GenerateCode -> table Huffman
-BitLining -> bitline
-BitSplitting -> tableBit
-pad
-BitToDec -> tableDec
-DecToBi -> tableUint8_t
+FileCompression/
+│
+├── .git/
+│
+├── Data/
+│   └── decompress.txt
+│   └── FrequencyTable.cpp
+│   └── FrequencyTable.h
+│   └── GenerateFile.py
+│   └── input.txt
+│   └── output.bin 
+│   └── source.txt
+│
+├── Huffman/
+│   ├── Huffman.cpp
+│   └── Huffman.h
+│
+├── IO/
+│   ├── FileWritter.cpp
+│   └── FileWritter.h
+│   └── ReadEncodeFile.cpp
+│   └── ReadEncodeFile.h 
+│   └──ReadInputFile.cpp
+│   └──ReadInputFile.h 
+│
+├── Struct/
+│   ├── Node.h
+│   └── AnalyzeResult.h
+│
+├── UI/
+│   ├── UI.cpp
+│   └── UI.h
+│
+├── Utils/
+│   ├── AnalyzeData.cpp
+│   ├── AnalyzeData.h
+│   └── BitCalculating.cpp
+│   └── BitCalculating.h 
+│   └── BitModify.cpp
+│   └── BitModify.h 
+│
+├── main.cpp
+│
+├── app.exe
+│
+├── progress.txt
+│
+└── running.txt

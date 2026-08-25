@@ -5,6 +5,7 @@
 #include <string>
 #include <map>
 #include <iostream>
+#include "AnalyzeResult.h"
 
 std::vector<Node*> CreateNode(std::vector<int> table) 
 {
@@ -75,4 +76,40 @@ void GenerateCode(Node* tree , std::string code , std::map<uint8_t , std::string
 
     GenerateCode(tree -> left , code + "0" , tableHuffman);
     GenerateCode(tree -> right , code + "1" , tableHuffman);
+}
+
+Node* RebuildTree(Ar res)
+{
+    Node* tree = new Node{0 , 0 , nullptr , nullptr};
+
+    for (int i = 0; i < res.table_size; i++)
+    {
+        Node* current = tree;
+
+        for (char bit : res.data_table[i])
+        {
+            if (bit == '0')
+            {
+                if (current->left == nullptr)
+                {
+                    current->left = new Node{0 , 0 , nullptr , nullptr};
+                }
+
+                current = current->left;
+            }
+            else if (bit == '1')
+            {
+                if (current->right == nullptr)
+                {
+                    current->right = new Node{0 , 0 , nullptr , nullptr};
+                }
+
+                current = current->right;
+            }
+        }
+
+        current->byte = static_cast<uint8_t>(res.table_char[i]);
+    }
+
+    return tree;
 }

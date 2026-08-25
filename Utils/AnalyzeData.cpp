@@ -3,6 +3,7 @@
 #include <vector>
 #include <cstdint>
 #include "AnalyzeResult.h"
+#include <iostream>
 
 Ar AnalyzeData(std::vector<uint8_t> data)
 {
@@ -21,7 +22,7 @@ Ar AnalyzeData(std::vector<uint8_t> data)
         data.erase(data.begin());
 
         res.data_table.push_back(
-            std::vector<uint8_t>(
+            std::vector<char>(
                 data.begin() ,
                 data.begin() + counter
             )
@@ -31,6 +32,11 @@ Ar AnalyzeData(std::vector<uint8_t> data)
             data.begin() ,
             data.begin() + counter
         );
+    }
+
+    for (size_t i = 0; i < data.size(); i ++)
+    {
+        res.compressed_bytes.push_back(data[i]);
     }
 
     return res;

@@ -5,11 +5,14 @@
 #include <map>
 #include <string>
 #include <cstdint>
+#include "AnalyzeResult.h"
 
 extern std::priority_queue<Node*, std::vector<Node*>, Compare> pq;
 
 Node* CreateNodeTree(std::vector<int> table);
 
 void GenerateCode(Node* tree , std::string code , std::map<uint8_t , std::string>& tableHuffman);
+
+Node* RebuildTree(Ar res);
 
 #endif

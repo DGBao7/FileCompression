@@ -104,6 +104,7 @@ void Compression()
     std::cout << "\n";
     std::cout << "Input size = " << data.size() << " bytes\n";
     std::cout << "Output size = " << table_uint8t.size() << " bytes\n";
+    // std::cout << pad << "\n";
 
     WriteCompressFile("Data/output.bin" , table_uint8t , pad , table_huffman);
 }
@@ -113,10 +114,6 @@ void Expression()
     bool condition = false;
 
     std::vector<uint8_t> data = ReadEncodeFile("Data/output.bin");
-
-    // Remove pad number
-    // int pad = table_uint8t[table_uint8t.size() - 1];
-    // table_uint8t.pop_back();
 
     // std::cout << "\n";
     // for (size_t i = 0; i < table_uint8t.size(); i ++)
@@ -142,52 +139,65 @@ void Expression()
     //     std::cout << tableBit[i] << "\n";
     // }
 
-    for (size_t i = 0; i < data.size(); i ++)
-    {
-        std::cout << static_cast<int>(data[i]) << " ";
-    }
+    // for (size_t i = 0; i < data.size(); i ++)
+    // {
+    //     std::cout << static_cast<int>(data[i]) << " ";
+    // }
 
     Ar res = AnalyzeData(data);
-    std::cout <<  "\n";
-    for (size_t i = 0; i < res.data_table.size(); i ++)
-    {
-        std::cout << "\n";
-        for (size_t j = 0; j < res.data_table[i].size(); j ++)
-        {
-            std::cout << static_cast<int>(res.data_table[i][j]) << " ";
-        }
-    }
+    // std::cout <<  "\n";
+    // for (size_t i = 0; i < res.data_table.size(); i ++)
+    // {
+    //     std::cout << "\n";
+    //     for (size_t j = 0; j < res.data_table[i].size(); j ++)
+    //     {
+    //         std::cout << res.data_table[i][j] << " ";
+    //     }
+    // }
 
-    std::cout << "\n" << res.table_size;
+    // std::cout << "\n" << res.table_size;
     
-    std::cout << "\n";
-    for (size_t i = 0; i < res.table_char.size(); i ++)
-    {
-        std::cout << res.table_char[i] << " ";
-    }
+    // std::cout << "\n";
+    // for (size_t i = 0; i < res.table_char.size(); i ++)
+    // {
+    //     std::cout << res.table_char[i] << " ";
+    // }
+
+    Node* tree = RebuildTree(res);
+
+    int pad = static_cast<int>(res.compressed_bytes[res.compressed_bytes.size() - 1]);
+
+    std::vector<std::vector<char>> compressed_bytes = StaticCastChar(res.compressed_bytes);
+
+    compressed_bytes[compressed_bytes.size() - 1] = RemovePad(compressed_bytes[compressed_bytes.size() - 1] , pad);
+
+    // for (size_t i = 0; i < compressed_bytes.size(); i ++)
+    // {
+    //     std::cout << "\n";
+    //     for (size_t j = 0; j < compressed_bytes[i].size(); j ++)
+    //     {
+    //         std::cout << compressed_bytes[i][j] << " ";
+    //     }
+    // }
+
+    std::string decompressed_data = DecodeCompressData(compressed_bytes , tree);
+    // std::cout << "\n" << decompressed_data;
+
+    // std::cout << "\n";
+    // std::cout << decompressed_data;
+
+    WriteDecompressedFile("Data/output.txt" , decompressed_data);
 
     Confirm();
 }
 
 int main()
 {
-    // // if (OptionSelect() == 1)
-    // // {   
-    // //     Compression();
-    // // }
-    // // else
-    // // {
-    // //     Expression();
-    // // }
-
-    int mh = 2;
-    // std::cin >> mh;
-
-    if (mh == 1)
-    {
+    if (OptionSelect() == 1)
+    {   
         Compression();
     }
-    else 
+    else
     {
         Expression();
     }

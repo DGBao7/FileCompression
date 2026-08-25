@@ -58,3 +58,17 @@ void WriteCompressFile(
 
     file.close();
 }
+
+void WriteDecompressedFile(
+    const std::string& path ,
+    std::string decompressed_data
+)
+{
+    std::ofstream file(path , std::ios::binary);
+
+    file << decompressed_data;
+
+    std::cout << "\nDecompress Successfully\n";
+
+    file.close();
+}

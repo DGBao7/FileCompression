@@ -12,4 +12,9 @@ void WriteCompressFile(
     std::map<uint8_t , std::string> tableHufman
 );
 
+void WriteDecompressedFile(
+    const std::string& path ,
+    std::string decompressed_data
+);
+
 #endif
