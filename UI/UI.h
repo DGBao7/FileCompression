@@ -1,8 +1,8 @@
 #ifndef UI_H
 #define UI_H
 
-void Writting(std::atomic<bool>& writing);
+void Writing();
 
-int OptionSelect();
+std::string TakePath();
 
 #endif

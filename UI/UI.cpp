@@ -1,45 +1,19 @@
 #include <iostream>
-#include <thread>
-#include <chrono>
-#include <atomic>
 #include "UI.h"
+#include <string>
 
-int OptionSelect()
+std::string TakePath()
 {
-    std::cout << "Slect your option: \n" <<
-                "1. Compression\n" <<
-                "2. Expression\n" << 
-                "User: ";
+    std::string path;
 
-    int select;
+    std::cout << "Enter location: ";
+    std::getline(std::cin , path);
+    std::cout << "TAKE PATH = [" << path << "]\n";
 
-    std:: cin >> select;
-
-    return select;
+    return path;
 }
 
-void Writting(std::atomic<bool>& writing)
+void Writing()
 {
-    int counter = 0;
-
-    while (writing)
-    {
-        std::cout << "\rWritting";
-
-        for (int i = 0; i < counter; i++)
-        {
-            std::cout << ".";
-        }
-
-        std::cout << "   " << std::flush;
-
-        counter++;
-
-        if (counter > 3)
-        {
-            counter = 0;
-        }
-
-        std::this_thread::sleep_for(std::chrono::milliseconds(500));
-    }
+    std::cout << "Writing...";
 }

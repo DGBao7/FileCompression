@@ -4,6 +4,6 @@
 #include <string>
 #include <cstdint>
 
-std::vector<uint8_t> ReadBinaryFile(const std::string& path);
+std::vector<uint8_t> ReadFile(const std::string& path);
 
 #endif

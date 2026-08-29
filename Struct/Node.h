@@ -16,7 +16,7 @@ struct Compare
 {
     bool operator()(Node* a , Node* b) 
     {
-        return a->frequency > b->frequency;
+        return a -> frequency > b -> frequency;
     }
 };
 

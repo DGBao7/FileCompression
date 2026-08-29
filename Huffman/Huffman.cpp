@@ -90,25 +90,25 @@ Node* RebuildTree(Ar res)
         {
             if (bit == '0')
             {
-                if (current->left == nullptr)
+                if (current -> left == nullptr)
                 {
-                    current->left = new Node{0 , 0 , nullptr , nullptr};
+                    current -> left = new Node{0 , 0 , nullptr , nullptr};
                 }
 
-                current = current->left;
+                current = current -> left;
             }
             else if (bit == '1')
             {
-                if (current->right == nullptr)
+                if (current -> right == nullptr)
                 {
-                    current->right = new Node{0 , 0 , nullptr , nullptr};
+                    current -> right = new Node{0 , 0 , nullptr , nullptr};
                 }
 
-                current = current->right;
+                current = current -> right;
             }
         }
 
-        current->byte = static_cast<uint8_t>(res.table_char[i]);
+        current -> byte = static_cast<uint8_t>(res.table_char[i]);
     }
 
     return tree;

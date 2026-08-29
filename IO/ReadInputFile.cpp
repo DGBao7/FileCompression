@@ -4,7 +4,7 @@
 #include <fstream>
 #include <cstdint>
 
-std::vector<uint8_t> ReadBinaryFile(const std::string& path)
+std::vector<uint8_t> ReadFile(const std::string& path)
 {
     std::ifstream file(path , std::ios::binary);
 

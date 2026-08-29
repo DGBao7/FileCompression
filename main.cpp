@@ -7,6 +7,7 @@
 #include <atomic>
 #include <thread>
 #include <bitset>
+#include <filesystem>
 
 #include "IO/ReadInputFile.h"
 #include "Data/FrequencyTable.h"
@@ -19,6 +20,7 @@
 #include "Utils/BitModify.h"
 #include "Utils/AnalyzeData.h"
 #include "AnalyzeResult.h"
+#include "Utils/AnalyzePath.h"
 
 void Confirm() 
 {
@@ -26,15 +28,21 @@ void Confirm()
     getchar();
 }
 
-void Compression()
+void Compression(
+    const std::string& file_path ,
+    const std::string& path ,
+    const std::string& file_name ,
+    const std::string& file_extension
+)
 {
     bool condition = true;
 
-    std::atomic<bool> writing = true;
+    Writing();
 
-    std::thread loading(Writting , std::ref(writing));
+    std::vector<uint8_t> data = ReadFile(path);
 
-    std::vector<uint8_t> data = ReadBinaryFile("Data/input.txt");
+    std::cout << "\n";
+    std::cout << "Input size = " << data.size() << " bytes\n";
 
     // for (int i = 0; i < data.size(); i ++) {
     //     std::cout << static_cast<int>(data[i]) << " ";
@@ -100,20 +108,24 @@ void Compression()
 
     std::vector<uint8_t> table_uint8t = DecimalToBinary(table_dec);
 
-    writing = false;
-    std::cout << "\n";
-    std::cout << "Input size = " << data.size() << " bytes\n";
     std::cout << "Output size = " << table_uint8t.size() << " bytes\n";
     // std::cout << pad << "\n";
 
-    WriteCompressFile("Data/output.bin" , table_uint8t , pad , table_huffman);
+    std::string loc_path = path + "\\" + file_name + ".bon";
+
+    WriteCompressFile(loc_path , table_uint8t , pad , table_huffman);
 }
 
-void Expression()
+void Expression(
+    const std::string& file_path ,
+    const std::string& path ,
+    const std::string& file_name ,
+    const std::string& file_extension
+)
 {
     bool condition = false;
 
-    std::vector<uint8_t> data = ReadEncodeFile("Data/output.bin");
+    std::vector<uint8_t> data = ReadEncodeFile(path);
 
     // std::cout << "\n";
     // for (size_t i = 0; i < table_uint8t.size(); i ++)
@@ -186,6 +198,8 @@ void Expression()
     // std::cout << "\n";
     // std::cout << decompressed_data;
 
+    std::string loc_path = path + "\\" + file_name + ".txt";
+
     WriteDecompressedFile("Data/output.txt" , decompressed_data);
 
     Confirm();
@@ -193,12 +207,52 @@ void Expression()
 
 int main()
 {
-    if (OptionSelect() == 1)
-    {   
-        Compression();
+    std::string path = TakePath();
+    // std::string path = "Data/input.txt";
+
+    std::vector<std::string> part_path = Choppath(path);
+    
+    // std::cout << "\n";
+    // for (int i = 0; i < part_path.size(); i ++)
+    // {
+    //     std::cout << part_path[i] << " ";
+    // }
+
+    std::vector<std::string> file = ChopName(part_path[part_path.size() - 1]);
+    part_path.pop_back();
+    
+    std::string loc_path = RewritePath(part_path);
+
+    std::string file_name = file[0];
+    std::string file_extension = file[1];
+    std::cout << "\n";
+    std::cout << path;
+
+    // std::cout << "\n";
+    // std::cout << path;
+    // std::cout << "\n";
+    // std::cout << file_name;
+    // std::cout << "\n";
+    // std::cout << file_extension;
+    // std::cout << "\n";
+    // std::cout << loc_path;
+
+    if (file_extension == ".bon")
+    {
+        Expression(
+            path ,
+            loc_path ,
+            file_name ,
+            file_extension
+        );
     }
     else
     {
-        Expression();
+        Compression(
+            path ,
+            loc_path ,
+            file_name ,
+            file_extension
+        );
     }
 }
